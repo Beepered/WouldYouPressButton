@@ -23,6 +23,7 @@ var votes = [] # list of 0 or 1, 0 means yes, 1 means no
 @onready var noButton = $NoButton
 
 func _ready() -> void:
+	# ask number of players
 	begin_discussion()
 	
 func _process(delta: float) -> void:
@@ -38,10 +39,8 @@ func begin_discussion():
 	playerName.visible = false
 	yesButton.visible = false;
 	noButton.visible = false;
-	progressBar.value = 100
 
 func begin_voting():
-	print("begin voting")
 	gameText.text = "Voting time"
 	playerName.visible = true;
 	playerName.text = "player " + str(numVoted)
@@ -50,12 +49,10 @@ func begin_voting():
 	noButton.visible = true;
 	numVoted = 0
 	votes = []
-	progressBar.value = 100
 
 func continue_voting():
 	$"vote timer".start()
 	playerName.text = "player " + str(numVoted)
-	progressBar.value = 100
 
 func _on_discussion_timer_timeout() -> void:
 	begin_voting()
