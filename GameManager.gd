@@ -10,29 +10,71 @@ var prompts = ["Win a million dollars but you give it to me", "Get a pet parrot 
 "Learn everything about Greece but forget everything about Rome", "Free coffee but it can only be black", "You become amazing at art but all colors you see switch",
 "Your legs are big but your arms are small", "Cancer is solved but everyone who doesn't have cancer gets cancer", "Be fireproof but water is always cold"]
 
-var numPlayers = 0;
-@onready var gameTypeText = $"game type text" # text will change from discussion time to voting times
-@onready var prompt = $"X but Y text"
+var numPlayers = 2;
+var numVoted = 0;
+var votes = [] # list of 0 or 1, 0 means yes, 1 means no
+
+# game object variables except for timers just to read easier
+@onready var progressBar = $ProgressBar
+@onready var gameText = $"gameText" # text will change from "discussion time" to "voting time"
+@onready var prompt = $prompt
+@onready var playerName = $"player name"
+@onready var yesButton = $YesButton
+@onready var noButton = $NoButton
 
 func _ready() -> void:
-	pass
-
-
+	begin_discussion()
+	
 func _process(delta: float) -> void:
-	pass
+	if ($"discussion timer".time_left > 0):
+		progressBar.value = ($"discussion timer".time_left / $"discussion timer".wait_time) * 100
+	elif ($"vote timer".time_left > 0):
+		progressBar.value = ($"vote timer".time_left / $"vote timer".wait_time) * 100
 
+func begin_discussion():
+	gameText.text = "Discussion time"
+	prompt.text = prompts[randi() % prompts.size()]
+	$"discussion timer".start()
+	playerName.visible = false
+	yesButton.visible = false;
+	noButton.visible = false;
+	progressBar.value = 100
+
+func begin_voting():
+	print("begin voting")
+	gameText.text = "Voting time"
+	playerName.visible = true;
+	playerName.text = "player " + str(numVoted)
+	$"vote timer".start()
+	yesButton.visible = true;
+	noButton.visible = true;
+	numVoted = 0
+	votes = []
+	progressBar.value = 100
+
+func continue_voting():
+	$"vote timer".start()
+	playerName.text = "player " + str(numVoted)
+	progressBar.value = 100
 
 func _on_discussion_timer_timeout() -> void:
-	# go to voting
-	$"vote timer".start()
-	$"Vote yes".visible = true;
-	$"Vote yes2".visible = true;
-
+	begin_voting()
 
 func _on_vote_timer_timeout() -> void:
-	# skip to next person because player did not vote
-	
-	# once everyone has voted go to discussion
-		$"discussion timer".start()
-		gameTypeText.text = "Discussion Time"
-		prompt.text = "choose random"
+	numVoted += 1
+	if(numVoted < numPlayers): # skip to next person because player did not vote
+		continue_voting()
+	else: # once everyone has voted
+		# check the "votes" array variable to see who is in majority
+		begin_discussion()
+
+
+func _on_vote_yes_button_down() -> void:
+	votes.push_back(0)
+	numVoted += 1
+	continue_voting()
+
+func _on_vote_no_button_down() -> void:
+	votes.push_back(1)
+	numVoted += 1
+	continue_voting()
