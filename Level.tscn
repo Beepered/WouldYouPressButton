@@ -12,7 +12,7 @@ bg_color = Color(0.360937, 0.609765, 0.316078, 1)
 script = ExtResource("1_jui51")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-offset_right = 801.0
+offset_right = 1920.0
 offset_bottom = 40.0
 theme_override_styles/background = SubResource("StyleBoxFlat_0yyxq")
 theme_override_styles/fill = SubResource("StyleBoxFlat_5kcib")
@@ -20,43 +20,45 @@ value = 100.0
 show_percentage = false
 
 [node name="gameText" type="Label" parent="."]
-offset_left = 330.0
-offset_top = 103.0
-offset_right = 482.0
-offset_bottom = 131.0
-theme_override_font_sizes/font_size = 20
+offset_left = 804.0
+offset_top = 63.0
+offset_right = 1108.0
+offset_bottom = 118.0
+theme_override_font_sizes/font_size = 40
 text = "Discussion time"
 
 [node name="prompt" type="Label" parent="."]
-offset_left = 108.0
-offset_top = 144.0
-offset_right = 708.0
-offset_bottom = 294.0
-theme_override_font_sizes/font_size = 20
+offset_left = 75.0
+offset_top = 159.0
+offset_right = 1852.0
+offset_bottom = 481.0
+theme_override_font_sizes/font_size = 55
 text = "prompt goes here"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="player name" type="Label" parent="."]
-offset_left = 315.0
-offset_top = 521.0
-offset_right = 503.0
-offset_bottom = 563.0
-theme_override_font_sizes/font_size = 30
+offset_left = 824.0
+offset_top = 959.0
+offset_right = 1075.0
+offset_bottom = 1014.0
+theme_override_font_sizes/font_size = 40
 text = "player X vote"
 
 [node name="YesButton" type="Button" parent="."]
-offset_left = 305.0
-offset_top = 303.0
-offset_right = 505.0
-offset_bottom = 373.0
+offset_left = 781.0
+offset_top = 536.0
+offset_right = 1121.0
+offset_bottom = 656.0
+theme_override_font_sizes/font_size = 30
 text = "Press button"
 
 [node name="NoButton" type="Button" parent="."]
-offset_left = 307.0
-offset_top = 401.0
-offset_right = 507.0
-offset_bottom = 471.0
+offset_left = 777.0
+offset_top = 732.0
+offset_right = 1117.0
+offset_bottom = 852.0
+theme_override_font_sizes/font_size = 30
 text = "Don't press"
 
 [node name="discussion timer" type="Timer" parent="."]
