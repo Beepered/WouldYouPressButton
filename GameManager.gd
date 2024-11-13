@@ -12,7 +12,7 @@ var prompts = ["Win a million dollars but you give it to me", "Get a pet parrot 
 
 var numPlayers = 2;
 var numVoted = 0;
-var votes = [] # list of 0 or 1, 0 means yes, 1 means no
+var votes = [] # list of 0, 1, or 999, 0 means yes, 1 means no, 999 means no vote
 
 # game object variables except for timers just to read easier
 @onready var progressBar = $ProgressBar
@@ -33,45 +33,42 @@ func _process(delta: float) -> void:
 		progressBar.value = ($"vote timer".time_left / $"vote timer".wait_time) * 100
 
 func begin_discussion():
+	$"discussion timer".start()
 	gameText.text = "Discussion time"
 	prompt.text = prompts[randi() % prompts.size()]
-	$"discussion timer".start()
 	playerName.visible = false
 	yesButton.visible = false;
 	noButton.visible = false;
 
 func begin_voting():
-	gameText.text = "Voting time"
-	playerName.visible = true;
-	playerName.text = "player " + str(numVoted)
 	$"vote timer".start()
-	yesButton.visible = true;
-	noButton.visible = true;
 	numVoted = 0
 	votes = []
-
-func continue_voting():
-	$"vote timer".start()
-	playerName.text = "player " + str(numVoted)
+	gameText.text = "Voting time"
+	playerName.visible = true;
+	playerName.text = "player " + str(numVoted + 1)
+	yesButton.visible = true;
+	noButton.visible = true;
 
 func _on_discussion_timer_timeout() -> void:
 	begin_voting()
 
 func _on_vote_timer_timeout() -> void:
-	numVoted += 1
-	if(numVoted < numPlayers): # skip to next person because player did not vote
-		continue_voting()
-	else: # once everyone has voted
-		# check the "votes" array variable to see who is in majority
-		begin_discussion()
-
+	voted(999)
 
 func _on_vote_yes_button_down() -> void:
-	votes.push_back(0)
-	numVoted += 1
-	continue_voting()
+	voted(0)
 
 func _on_vote_no_button_down() -> void:
-	votes.push_back(1)
+	voted(1)
+
+func voted(voteNum):
 	numVoted += 1
-	continue_voting()
+	votes.push_back(voteNum)
+	if(numVoted < numPlayers): # skip to next person because player did not vote
+		$"vote timer".start()
+		playerName.text = "player " + str(numVoted + 1)
+	else: # once everyone has voted
+		$"vote timer".stop()
+		# check the "votes" array variable to see who is in majority
+		begin_discussion()
