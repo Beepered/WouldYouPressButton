@@ -10,11 +10,12 @@ var prompts = ["Win a million dollars but you give it to me", "Get a pet parrot 
 "Learn everything about Greece but forget everything about Rome", "Free coffee but it can only be black", "You become amazing at art but all colors you see switch",
 "Your legs are big but your arms are small", "Cancer is solved but everyone who doesn't have cancer gets cancer", "Be fireproof but water is always cold"]
 
+var gotPlayers: bool = false; var playing: bool = false
 var numPlayers = 2;
 var numVoted = 0;
 var votes = [] # list of 0, 1, or 999, 0 means yes, 1 means no, 999 means no vote
 
-# game object variables except for timers just to read easier
+# game voting stuff
 @onready var progressBar = $"Game voting stuff/ProgressBar"
 @onready var gameText = $"Game voting stuff/gameText" # text will change from "discussion time" to "voting time"
 @onready var prompt = $"Game voting stuff/prompt"
@@ -24,11 +25,19 @@ var votes = [] # list of 0, 1, or 999, 0 means yes, 1 means no, 999 means no vot
 @onready var discussTimer = $"Game voting stuff/discussion timer"
 @onready var voteTimer = $"Game voting stuff/vote timer"
 
-func _ready() -> void:
-	# ask number of players
+func beginGame():
+	playing = true
+	$"Num Players stuff".visible = false
+	$"Game voting stuff".visible = true
 	begin_discussion()
-	
+
 func _process(delta: float) -> void:
+	if(gotPlayers && !playing):
+		beginGame()
+	elif(!gotPlayers):
+		$"Num Players stuff".visible = true
+		$"Game voting stuff".visible = false
+
 	if (discussTimer.time_left > 0):
 		progressBar.value = (discussTimer.time_left / discussTimer.wait_time) * 100
 	elif (voteTimer.time_left > 0):
