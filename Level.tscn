@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cfafusdh4p6em"]
+[gd_scene load_steps=6 format=3 uid="uid://cfafusdh4p6em"]
 
 [ext_resource type="Script" path="res://GameManager.gd" id="1_jui51"]
 
@@ -7,6 +7,12 @@ bg_color = Color(0.785299, 0.239462, 0.273742, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5kcib"]
 bg_color = Color(0.360937, 0.609765, 0.316078, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_y21m0"]
+font_size = 50
+
+[sub_resource type="LabelSettings" id="LabelSettings_qwijr"]
+font_size = 50
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_jui51")
@@ -73,7 +79,30 @@ one_shot = true
 wait_time = 3.0
 one_shot = true
 
+[node name="Voting Results" type="Node2D" parent="."]
+
+[node name="Click" type="Label" parent="Voting Results"]
+offset_left = 893.0
+offset_top = 334.0
+offset_right = 1432.0
+offset_bottom = 643.0
+text = "Click:"
+label_settings = SubResource("LabelSettings_y21m0")
+
+[node name="Dont Click" type="Label" parent="Voting Results"]
+offset_left = 824.0
+offset_top = 566.0
+offset_right = 1094.0
+offset_bottom = 635.0
+text = "Don't Click:"
+label_settings = SubResource("LabelSettings_qwijr")
+
+[node name="Timer" type="Timer" parent="Voting Results"]
+wait_time = 3.942
+one_shot = true
+
 [connection signal="button_down" from="Game voting stuff/YesButton" to="." method="_on_vote_yes_button_down"]
 [connection signal="button_down" from="Game voting stuff/NoButton" to="." method="_on_vote_no_button_down"]
 [connection signal="timeout" from="Game voting stuff/discussion timer" to="." method="_on_discussion_timer_timeout"]
 [connection signal="timeout" from="Game voting stuff/vote timer" to="." method="_on_vote_timer_timeout"]
+[connection signal="timeout" from="Voting Results/Timer" to="." method="_on_timer_timeout"]

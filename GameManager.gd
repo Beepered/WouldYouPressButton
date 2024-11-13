@@ -23,6 +23,9 @@ var votes = [] # list of 0, 1, or 999, 0 means yes, 1 means no, 999 means no vot
 @onready var noButton = $"Game voting stuff/NoButton"
 @onready var discussTimer = $"Game voting stuff/discussion timer"
 @onready var voteTimer = $"Game voting stuff/vote timer"
+@onready var clicked = $"Voting Results/Click"
+@onready var not_clicked = $"Voting Results/Dont Click"
+@onready var display_votes_timer = $"Voting Results/Timer"
 
 func _ready() -> void:
 	# ask number of players
@@ -35,6 +38,8 @@ func _process(delta: float) -> void:
 		progressBar.value = (voteTimer.time_left / voteTimer.wait_time) * 100
 
 func begin_discussion():
+	$"Voting Results".visible = false;
+	$"Game voting stuff".visible = true;
 	discussTimer.start()
 	gameText.text = "Discussion time"
 	prompt.text = prompts[randi() % prompts.size()]
@@ -73,4 +78,25 @@ func voted(voteNum):
 	else: # once everyone has voted
 		voteTimer.stop()
 		# check the "votes" array variable to see who is in majority
-		begin_discussion()
+		show_vote_percentages()
+
+func show_vote_percentages():
+	$"Game voting stuff".visible = false;
+	$"Voting Results".visible = true;
+	display_votes_timer.start()
+	var num_yes:float = 0;
+	var num_no:float = 0;
+	for vote in votes:
+		if(vote == 1):
+			num_yes+= 1;
+		if(vote == 0):
+			num_no+= 1;
+	prompt.text = "Percentages:";
+	clicked.text = "Clicked: " + str((num_yes/numVoted)*100) + "%";
+	not_clicked.text = "Not clicked: " + str((num_no/numVoted)*100) + "%";
+	
+	
+
+
+func _on_timer_timeout() -> void:
+	begin_discussion()
