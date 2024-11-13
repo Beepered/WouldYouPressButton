@@ -91,7 +91,6 @@ func voted(voteNum):
 		playerName.text = "player " + str(numVoted + 1)
 	else: # once everyone has voted
 		voteTimer.stop()
-		# check the "votes" array variable to see who is in majority
 		show_vote_percentages()
 
 func show_vote_percentages():
