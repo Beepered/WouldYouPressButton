@@ -15,25 +15,27 @@ var numVoted = 0;
 var votes = [] # list of 0, 1, or 999, 0 means yes, 1 means no, 999 means no vote
 
 # game object variables except for timers just to read easier
-@onready var progressBar = $ProgressBar
-@onready var gameText = $"gameText" # text will change from "discussion time" to "voting time"
-@onready var prompt = $prompt
-@onready var playerName = $"player name"
-@onready var yesButton = $YesButton
-@onready var noButton = $NoButton
+@onready var progressBar = $"Game voting stuff/ProgressBar"
+@onready var gameText = $"Game voting stuff/gameText" # text will change from "discussion time" to "voting time"
+@onready var prompt = $"Game voting stuff/prompt"
+@onready var playerName = $"Game voting stuff/player name"
+@onready var yesButton = $"Game voting stuff/YesButton"
+@onready var noButton = $"Game voting stuff/NoButton"
+@onready var discussTimer = $"Game voting stuff/discussion timer"
+@onready var voteTimer = $"Game voting stuff/vote timer"
 
 func _ready() -> void:
 	# ask number of players
 	begin_discussion()
 	
 func _process(delta: float) -> void:
-	if ($"discussion timer".time_left > 0):
-		progressBar.value = ($"discussion timer".time_left / $"discussion timer".wait_time) * 100
-	elif ($"vote timer".time_left > 0):
-		progressBar.value = ($"vote timer".time_left / $"vote timer".wait_time) * 100
+	if (discussTimer.time_left > 0):
+		progressBar.value = (discussTimer.time_left / discussTimer.wait_time) * 100
+	elif (voteTimer.time_left > 0):
+		progressBar.value = (voteTimer.time_left / voteTimer.wait_time) * 100
 
 func begin_discussion():
-	$"discussion timer".start()
+	discussTimer.start()
 	gameText.text = "Discussion time"
 	prompt.text = prompts[randi() % prompts.size()]
 	playerName.visible = false
@@ -41,7 +43,7 @@ func begin_discussion():
 	noButton.visible = false;
 
 func begin_voting():
-	$"vote timer".start()
+	voteTimer.start()
 	numVoted = 0
 	votes = []
 	gameText.text = "Voting time"
@@ -66,9 +68,9 @@ func voted(voteNum):
 	numVoted += 1
 	votes.push_back(voteNum)
 	if(numVoted < numPlayers): # skip to next person because player did not vote
-		$"vote timer".start()
+		voteTimer.start()
 		playerName.text = "player " + str(numVoted + 1)
 	else: # once everyone has voted
-		$"vote timer".stop()
+		voteTimer.stop()
 		# check the "votes" array variable to see who is in majority
 		begin_discussion()
