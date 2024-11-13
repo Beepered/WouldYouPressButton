@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfafusdh4p6em"]
+[gd_scene load_steps=7 format=3 uid="uid://cfafusdh4p6em"]
 
 [ext_resource type="Script" path="res://GameManager.gd" id="1_jui51"]
+[ext_resource type="Script" path="res://playerButton.gd" id="2_eyheo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0yyxq"]
 bg_color = Color(0.785299, 0.239462, 0.273742, 1)
@@ -19,7 +20,88 @@ script = ExtResource("1_jui51")
 
 [node name="Num Players stuff" type="Node2D" parent="."]
 
+[node name="Label" type="Label" parent="Num Players stuff"]
+offset_left = 637.0
+offset_top = 158.0
+offset_right = 1293.0
+offset_bottom = 295.0
+theme_override_font_sizes/font_size = 70
+text = "How many players?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Num Players stuff"]
+offset_left = 215.0
+offset_top = 423.0
+offset_right = 389.0
+offset_bottom = 618.0
+theme_override_font_sizes/font_size = 50
+text = "2"
+script = ExtResource("2_eyheo")
+number = 2
+
+[node name="Button2" type="Button" parent="Num Players stuff"]
+offset_left = 421.0
+offset_top = 427.0
+offset_right = 595.0
+offset_bottom = 622.0
+theme_override_font_sizes/font_size = 50
+text = "3"
+script = ExtResource("2_eyheo")
+number = 3
+
+[node name="Button3" type="Button" parent="Num Players stuff"]
+offset_left = 625.0
+offset_top = 429.0
+offset_right = 799.0
+offset_bottom = 624.0
+theme_override_font_sizes/font_size = 50
+text = "4"
+script = ExtResource("2_eyheo")
+number = 4
+
+[node name="Button4" type="Button" parent="Num Players stuff"]
+offset_left = 848.0
+offset_top = 427.0
+offset_right = 1022.0
+offset_bottom = 622.0
+theme_override_font_sizes/font_size = 50
+text = "5"
+script = ExtResource("2_eyheo")
+number = 5
+
+[node name="Button5" type="Button" parent="Num Players stuff"]
+offset_left = 1061.0
+offset_top = 427.0
+offset_right = 1235.0
+offset_bottom = 622.0
+theme_override_font_sizes/font_size = 50
+text = "6"
+script = ExtResource("2_eyheo")
+number = 6
+
+[node name="Button6" type="Button" parent="Num Players stuff"]
+offset_left = 1261.0
+offset_top = 423.0
+offset_right = 1435.0
+offset_bottom = 618.0
+theme_override_font_sizes/font_size = 50
+text = "7"
+script = ExtResource("2_eyheo")
+number = 7
+
+[node name="Button7" type="Button" parent="Num Players stuff"]
+offset_left = 1471.0
+offset_top = 421.0
+offset_right = 1645.0
+offset_bottom = 616.0
+theme_override_font_sizes/font_size = 50
+text = "8"
+script = ExtResource("2_eyheo")
+number = 8
+
 [node name="Game voting stuff" type="Node2D" parent="."]
+visible = false
 
 [node name="ProgressBar" type="ProgressBar" parent="Game voting stuff"]
 offset_right = 1920.0
@@ -80,6 +162,7 @@ wait_time = 3.0
 one_shot = true
 
 [node name="Voting Results" type="Node2D" parent="."]
+visible = false
 
 [node name="Click" type="Label" parent="Voting Results"]
 offset_left = 893.0
@@ -98,9 +181,16 @@ text = "Don't Click:"
 label_settings = SubResource("LabelSettings_qwijr")
 
 [node name="Timer" type="Timer" parent="Voting Results"]
-wait_time = 3.942
+wait_time = 3.5
 one_shot = true
 
+[connection signal="button_down" from="Num Players stuff/Button" to="Num Players stuff/Button" method="_on_button_down"]
+[connection signal="button_down" from="Num Players stuff/Button2" to="Num Players stuff/Button2" method="_on_button_down"]
+[connection signal="button_down" from="Num Players stuff/Button3" to="Num Players stuff/Button3" method="_on_button_down"]
+[connection signal="button_down" from="Num Players stuff/Button4" to="Num Players stuff/Button4" method="_on_button_down"]
+[connection signal="button_down" from="Num Players stuff/Button5" to="Num Players stuff/Button5" method="_on_button_down"]
+[connection signal="button_down" from="Num Players stuff/Button6" to="Num Players stuff/Button6" method="_on_button_down"]
+[connection signal="button_down" from="Num Players stuff/Button7" to="Num Players stuff/Button7" method="_on_button_down"]
 [connection signal="button_down" from="Game voting stuff/YesButton" to="." method="_on_vote_yes_button_down"]
 [connection signal="button_down" from="Game voting stuff/NoButton" to="." method="_on_vote_no_button_down"]
 [connection signal="timeout" from="Game voting stuff/discussion timer" to="." method="_on_discussion_timer_timeout"]

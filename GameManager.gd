@@ -28,6 +28,11 @@ var votes = [] # list of 0, 1, or 999, 0 means yes, 1 means no, 999 means no vot
 @onready var not_clicked = $"Voting Results/Dont Click"
 @onready var display_votes_timer = $"Voting Results/Timer"
 
+func _ready() -> void:
+	$"Num Players stuff".visible = true
+	$"Game voting stuff".visible = false
+	$"Voting Results".visible = false;
+
 func beginGame():
 	playing = true
 	$"Num Players stuff".visible = false
@@ -73,10 +78,10 @@ func _on_vote_timer_timeout() -> void:
 	voted(999)
 
 func _on_vote_yes_button_down() -> void:
-	voted(0)
+	voted(1)
 
 func _on_vote_no_button_down() -> void:
-	voted(1)
+	voted(0)
 
 func voted(voteNum):
 	numVoted += 1
